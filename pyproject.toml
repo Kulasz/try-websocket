@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "try-websocket"
+version = "0.1.0"
+description = "Example repository using fastapi and websocket"
+authors = ["Kulasz (Lukasz Chojecki)"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+black = "^24.4.2"
+pre-commit = "^3.7.1"
+isort = "^5.13.2"
+mypy = "^1.10.0"
+pylint = "^3.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
