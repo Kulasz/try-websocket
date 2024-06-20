@@ -25,6 +25,7 @@ mock = "^5.1.0"
 coverage = "^7.5.3"
 ruff = "^0.4.9"
 types-mock = "^5.1.0.20240425"
+pytest-coverage = "^0.0"
 
 
 [build-system]
