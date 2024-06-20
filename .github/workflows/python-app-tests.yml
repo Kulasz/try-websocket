@@ -1,0 +1,55 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+        
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      
+    - name: Install dependencies
+      run: |
+        run: poetry install --no-interaction --with dev
+    - name: Check code formatting
+      run: poetry run isort . --check
+      
+    - name: Check code style
+      run: poetry run black . --check
+
+    - name: Check code quality and potential issues
+      run: poetry run pylint src tests
+      
+    - name: Check type annotations and static type checking
+      run: poetry run mypy src
+
+    - name: Execute unit tests and coverage report
+      run: |
+        poetry run coverage run -m pytest --junitxml=./pytest_result.xml
+        poetry run coverage report > ./coverage_report.txt
+
+    - name: Pytest coverage comment
+      uses: MishaKav/pytest-coverage-comment@main
+      with:
+        pytest-coverage-path: ./coverage_report.txt
+        junitxml-path: ./pytest_result.xml
+      
