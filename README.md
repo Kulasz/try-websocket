@@ -4,11 +4,13 @@
 
 - Fast api built with websocket receiver under /frontend path
 - Unit tests
-- static code analysis and formaters (black, isort, mypy, pylint, ruff)
+- static code analysis and formatters (black, isort, mypy, pylint, ruff)
 - poetry
-- Github actions basic setup
+- pre-commit
+- GitHub actions basic setup
 - performance tests in locust
 - e2e tests using request
+- Docker (in-progress)
 
 
 ## How to run
@@ -27,7 +29,7 @@ TBD
 #### Without docker
 - API
 ```shell
-poetry install
+poetry install --with=dev,test
 ```
 
 ```shell
@@ -52,8 +54,9 @@ cd ./e2e_and_performance
 poetry run locust
 ```
 go to http://localhost:8089 
-Setup your test with users as desired (one user is reserved for ws):
+Setup your test with users as desired (one user is reserved for ws)
 
+Example:
 ![img.png](img.png)
  Results:
 ![img_1.png](img_1.png)
