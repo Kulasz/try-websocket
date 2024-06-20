@@ -28,6 +28,13 @@ types-mock = "^5.1.0.20240425"
 pytest-coverage = "^0.0"
 
 
+
+[tool.poetry.group.test.dependencies]
+locust = "^2.29.0"
+pytest = "^8.2.2"
+locust-plugins = {extras = ["websocket"], version = "^4.4.3"}
+websocket = "^0.2.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
@@ -40,7 +47,7 @@ testpaths = [
 
 [tool.coverage.report]
 fail_under = 80  # for now
-omit = ["tests/*"]
+omit = ["tests/*", "e2e_and_performance"]
 skip_empty = true
 
 [tool.isort]
@@ -53,6 +60,7 @@ line-length = 100
 extend-exclude = ".pre-commit-config.yaml"
 
 [tool.pylint]
+ignore-paths = '^e2e_and_performance'
 max-line-length = 120
 disable = ["W0511", "C0114", "C0103", "C0115", "C0116", "W0613", "R0801"] #Ignore TODOs ,docstrings, unused arguments
 
@@ -69,9 +77,14 @@ exclude = [
     "build",
     "dist",
     "htmlcov",
+    "e2e_and_performance"
 ]
 line-length = 120
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 select = ["E4", "E7", "E9", "F"]
+exclude = ["e2e_and_performance"]
+
+[tool.mypy]
+exclude = ['^e2e_and_performance']
