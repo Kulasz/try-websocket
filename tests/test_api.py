@@ -1,8 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 from mock import patch
+from test_data import IDS, ORDERS
 
-from tests.test_data import IDS, ORDERS
 from traiding_app.main import app
 from traiding_app.models.constants import Status
 
@@ -10,9 +10,7 @@ client = TestClient(app)
 
 
 def test_create_order():
-    response = client.post(
-        "/orders", json={"ticker": "TEST", "amount": 100, "order_type": "BUY"}
-    )
+    response = client.post("/orders", json={"ticker": "TEST", "amount": 100, "order_type": "BUY"})
     assert response.status_code == 200
     json_response = response.json()
     assert "orderId" in json_response
