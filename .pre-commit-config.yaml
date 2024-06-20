@@ -1,0 +1,56 @@
+fail_fast: false
+repos:
+- repo: local
+  hooks:
+    - id: poetry
+      name: poetry
+      entry: poetry check
+      language: system
+      require_serial: true
+      pass_filenames: false
+
+    - id: isort
+      name: isort
+      entry: poetry run isort --check
+      language: system
+
+    - id: black
+      name: black
+      entry: poetry run black --check
+      language: system
+      types: [file, python]
+
+    - id: pylint
+      name: pylint
+      entry: poetry run pylint
+      language: system
+      types: [python]
+      require_serial: true
+
+    - id: ruff
+      name: ruff
+      entry: poetry run ruff check
+      language: system
+      types: [file, python]
+
+    - id: mypy
+      name: mypy
+      entry: poetry run mypy .
+      language: system
+      types: [file, python]
+      require_serial: true
+      pass_filenames: false
+
+    - id: pytest
+      name: pytest
+      entry: poetry run coverage run -m pytest --junitxml=./pytest_result.xml
+      language: system
+      require_serial: true
+      pass_filenames: false
+
+    - id: coverage
+      name: coverage
+      entry: poetry run coverage report
+      language: system
+      require_serial: true
+      pass_filenames: false
