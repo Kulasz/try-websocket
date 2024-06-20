@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   build:
@@ -44,12 +45,12 @@ jobs:
 
     - name: Execute unit tests and coverage report
       run: |
-        poetry run coverage run -m pytest --junitxml=./pytest_result.xml
-        poetry run coverage report > ./coverage_report.txt
+        poetry run pytest --cov-report=term-missing:skip-covered --junitxml=pytest.xml --cov=src tests/ |
+        tee pytest-coverage.txt
 
     - name: Pytest coverage comment
       uses: MishaKav/pytest-coverage-comment@main
       with:
-        pytest-coverage-path: ./coverage_report.txt
-        junitxml-path: ./pytest_result.xml
+        pytest-coverage-path: ./pytest-coverage.txt
+        junitxml-path: ./pytest.xml
       
