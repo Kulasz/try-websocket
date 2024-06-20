@@ -7,6 +7,8 @@ from uuid import uuid4
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException, WebSocket
 from fastapi.responses import JSONResponse
+from starlette.exceptions import WebSocketException
+from starlette.websockets import WebSocketDisconnect
 
 from traiding_app.models.order import Order, OrderDetails, Status
 from traiding_app.websocket_receiver_endpoint import router
@@ -31,7 +33,7 @@ async def create_order(order_details: OrderDetails, background_tasks: Background
 async def change_order_status(order_id: str):
     """Run order and notify about sucesss"""
     await notify_receiving(order_id)
-    await asyncio.sleep(5)  # simulate delay
+    await asyncio.sleep(random.uniform(0.1, 1.0))  # simulate delay
     order: Optional[Order] = orders.get(order_id)
     if order:
         new_status = Status.EXECUTED
@@ -53,7 +55,7 @@ async def notify_finish(order: Order):
 @app.get("/orders/{order_id}")
 async def get_order(order_id: str) -> Order:
     """Get order details"""
-    await asyncio.sleep(2)
+    await asyncio.sleep(random.uniform(0.1, 1.0))
     order = orders.get(order_id)
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
@@ -63,7 +65,7 @@ async def get_order(order_id: str) -> Order:
 @app.delete("/orders/{order_id}")
 async def delete_order(order_id: str):
     """Delete order by setting status to cancelled"""
-    await asyncio.sleep(2)
+    await asyncio.sleep(random.uniform(0.1, 1.0))
     if order_id in orders and orders[order_id].status != Status.CANCELED:
         orders[order_id].status = Status.CANCELED
         return {"detail": "Order cancelled"}
@@ -75,7 +77,7 @@ async def delete_order(order_id: str):
 @app.get("/orders")
 async def get_orders() -> List[Order]:
     """Get all orders"""
-    await asyncio.sleep(2)
+    await asyncio.sleep(random.uniform(0.1, 1.0))
     return list(orders.values())
 
 
@@ -86,7 +88,9 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             await websocket.receive_text()
-    except Exception as e:
+    except WebSocketException as e:
         print(f"Error: {e}")
+    except WebSocketDisconnect as e:
+        print(f"Disconected: {e}")
     finally:
         clients.remove(websocket)

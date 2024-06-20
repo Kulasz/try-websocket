@@ -51,5 +51,3 @@ def test_delete_invalid_id():
 def test_invalid_order_fetch():
     response = client.get("/orders/invalid_id")
     assert response.status_code == 404
-
-

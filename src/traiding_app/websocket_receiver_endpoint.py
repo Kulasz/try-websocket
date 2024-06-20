@@ -54,6 +54,7 @@ HTML = """<!DOCTYPE html>
 
 router = APIRouter(prefix="/frontend")
 
+
 @router.get("/")
 async def get():
     return HTMLResponse(HTML)

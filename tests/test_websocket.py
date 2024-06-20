@@ -1,8 +1,6 @@
 from fastapi.testclient import TestClient
-from traiding_app.main import app
-from httpx import AsyncClient
-import pytest
 
+from traiding_app.main import app
 from traiding_app.models.constants import Status
 
 client = TestClient(app)
@@ -11,7 +9,9 @@ client = TestClient(app)
 # client doesn't support async, don't know what to do about it. Async client doesn't have websocket
 def test_create_order_with_ws():
     with client.websocket_connect("/ws") as ws:
-        response = client.post("/orders", json={"ticker": "TEST", "amount": 100, "order_type": "BUY"})
+        response = client.post(
+            "/orders", json={"ticker": "TEST", "amount": 100, "order_type": "BUY"}
+        )
         assert response.status_code == 200
         json_response = response.json()
         assert "orderId" in json_response
