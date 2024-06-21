@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+
+  locust:
+    build:
+      context: .
+      dockerfile: Dockerfile.locust
+    depends_on:
+      - fastapi
+    ports:
+      - "8089:8089"

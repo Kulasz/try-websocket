@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    depends_on:
+      - fastapi
+    environment:
+      BASE_URL: http://fastapi:80
+    volumes:
+      - ./tests://usr/application/tests
+
+
