@@ -10,20 +10,34 @@
 - GitHub actions basic setup
 - performance tests in locust
 - e2e tests using request
-- Docker (in-progress)
-
+- Docker, docker-compose tests (e2e and performance)
+- Test report in html generated in ./tests/report.html (after running docker-compose)
+- #TODO Multistage builds
+- #TODO Put more focus on websockets (performance tests)
 
 ## How to run
 
 #### Docker
 
-- Build image and run
+- Build image and run for API
 ```shell
-TBD
+docker build -t fastapi .
+docker run fastapi -p 80:80
 ```
 
+
+- Docker compose for e2e 
+
 ```shell
-TBD
+docker-compose -f docker-compose-e2e.yaml build
+docker-compose -f docker-compose-e2e.yaml up --abort-on-container-exit
+```
+
+- Docker compose performance tests
+
+```shell
+docker-compose build
+docker-compose up --abort-on-container-exit --no-attach fastapi
 ```
 
 #### Without docker

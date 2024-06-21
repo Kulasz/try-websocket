@@ -26,23 +26,23 @@ class TradingPlatformUser(HttpUser):
     tasks = [TradingPlatformTasks]
     wait_time = constant(0)
 
-
-class MySocketIOUser(SocketIOUser):
-    # https://github.com/SvenskaSpel/locust-plugins/blob/master/examples/socketio_ex.py
-    fixed_count = 1  # one user in websocket just getting updates
-
-    @task
-    def my_task(self):
-        self.my_value = None
-
-        self.connect("ws://localhost:8000/ws")
-
-        # wait until I get a push message to on_message
-        while not self.my_value:
-            time.sleep(0.1)
-
-        # wait for additional pushes, while occasionally sending heartbeats, like a real client would
-        self.sleep_with_heartbeat(10)
-
-    def on_message(self, message):
-        self.my_value = json.loads(message)
+# Doesn't work properly on docker
+# class MySocketIOUser(SocketIOUser):
+#     # https://github.com/SvenskaSpel/locust-plugins/blob/master/examples/socketio_ex.py
+#     fixed_count = 1  # one user in websocket just getting updates
+#
+#     @task
+#     def my_task(self):
+#         self.my_value = None
+#
+#         self.connect("ws://localhost:8000/ws")
+#
+#         # wait until I get a push message to on_message
+#         while not self.my_value:
+#             time.sleep(0.1)
+#
+#         # wait for additional pushes, while occasionally sending heartbeats, like a real client would
+#         self.sleep_with_heartbeat(10)
+#
+#     def on_message(self, message):
+#         self.my_value = json.loads(message)

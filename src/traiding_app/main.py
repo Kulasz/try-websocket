@@ -38,7 +38,6 @@ async def change_order_status(order_id: str):
     if order:
         new_status = Status.EXECUTED
         order.status = new_status
-        print(order)
         await notify_finish(order)
 
 

@@ -20,4 +20,4 @@ ENV PATH="${PATH}:/root/.local/bin"
 
 RUN poetry install --with=test --no-interaction --no-ansi --no-root
 
-CMD ["poetry", "run", "pytest", "--html=./tests/report.html", "./e2e_and_performance/e2e.py"]
+CMD ["poetry", "run", "locust", "-f", "/usr/application/e2e_and_performance/locustfile.py", "--host", "http://fastapi", "--headless", "-u", "100", "-r", "10", "--run-time", "1m"]
