@@ -26,6 +26,7 @@ class TradingPlatformUser(HttpUser):
     tasks = [TradingPlatformTasks]
     wait_time = constant(0)
 
+
 # Doesn't work properly on docker
 # class MySocketIOUser(SocketIOUser):
 #     # https://github.com/SvenskaSpel/locust-plugins/blob/master/examples/socketio_ex.py
